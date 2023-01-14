@@ -1,25 +1,39 @@
 package chap4;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static chap4.Type.*;
 
-@Getter
-@Setter
-@ToString
-@AllArgsConstructor
 public class Dish {
     private final String name;
     private final boolean vegetarian;
     private final int calories;
     private final Type type;
+
+    public Dish(String name, boolean vegetarian, int calories, Type type) {
+        this.name = name;
+        this.vegetarian = vegetarian;
+        this.calories = calories;
+        this.type = type;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public boolean isVegetarian() {
+        return vegetarian;
+    }
+
+    public int getCalories() {
+        return calories;
+    }
+
+    public Type getType() {
+        return type;
+    }
 
     public static void main(String[] args) {
         List <Dish> menu = Arrays.asList(
@@ -33,5 +47,21 @@ public class Dish {
                 , new Dish("prawns", false, 300, FISH)
                 , new Dish("salmon", false, 450, FISH)
         );
+
+        /*
+        * 상위 칼로리 3개를 찾기
+        * */
+
+        List <String> threeHighCaloricDishNames =
+                menu.stream()
+                        .filter(dish -> dish.getCalories() > 300)
+                        .map(Dish::getName)
+                        .limit(3)
+                        .collect(Collectors.toList());
+        System.out.println(threeHighCaloricDishNames.toString());
+
+        /*
+        *
+        * */
     }
 }
